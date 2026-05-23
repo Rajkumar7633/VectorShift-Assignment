@@ -51,6 +51,7 @@ export const TextNode = ({ id, data }) => {
 
   return (
     <BaseNode
+      id={id}
       title="Text"
       subtitle="Template with {{variables}}"
       icon="📝"

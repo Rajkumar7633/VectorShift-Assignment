@@ -41,6 +41,7 @@ export const createNode = ({
 
     return (
       <BaseNode
+        id={id}
         title={title}
         subtitle={subtitle}
         icon={icon}

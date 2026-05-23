@@ -1,4 +1,5 @@
 import { Handle, Position } from 'reactflow';
+import { useStore } from '../store';
 
 const POSITION_MAP = {
   left: Position.Left,
@@ -11,6 +12,7 @@ const isLeft = (pos) => pos === 'left' || pos === Position.Left;
 const isRight = (pos) => pos === 'right' || pos === Position.Right;
 
 export const BaseNode = ({
+  id,
   title,
   subtitle,
   icon,
@@ -20,6 +22,14 @@ export const BaseNode = ({
   style = {},
   className = '',
 }) => {
+  const removeNode = useStore((state) => state.removeNode);
+
+  const handleClose = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (id) removeNode(id);
+  };
+
   return (
     <div
       className={`base-node base-node--${accent} ${className}`}
@@ -47,9 +57,9 @@ export const BaseNode = ({
         </div>
         <button
           type="button"
-          className="base-node__close"
-          aria-label={`Close ${title} node`}
-          tabIndex={-1}
+          className="base-node__close nodrag"
+          aria-label={`Remove ${title} node`}
+          onClick={handleClose}
         >
           ×
         </button>

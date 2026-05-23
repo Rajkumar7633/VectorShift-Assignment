@@ -73,8 +73,14 @@
   font-size: 1rem;
   line-height: 1;
   color: var(--vs-text-muted);
-  cursor: default;
+  cursor: pointer;
   padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.base-node__close:hover {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .base-node__body {
