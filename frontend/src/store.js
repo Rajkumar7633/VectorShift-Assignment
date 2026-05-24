@@ -3,18 +3,8 @@ import {
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
-  MarkerType,
 } from 'reactflow';
-
-const defaultEdgeOptions = {
-  type: 'smoothstep',
-  animated: true,
-  markerEnd: {
-    type: MarkerType.Arrow,
-    height: 20,
-    width: 20,
-  },
-};
+import { buildEdgeOptions } from './utils/edgeOptions';
 
 export const useStore = create((set, get) => ({
   nodes: [],
@@ -57,10 +47,28 @@ export const useStore = create((set, get) => ({
   },
 
   onConnect: (connection) => {
+    const edges = get().edges;
     set({
       edges: addEdge(
-        { ...connection, ...defaultEdgeOptions },
-        get().edges
+        {
+          ...connection,
+          ...buildEdgeOptions(connection, edges),
+        },
+        edges
+      ),
+    });
+  },
+
+  onReconnect: (oldEdge, newConnection) => {
+    const edges = get().edges.filter((e) => e.id !== oldEdge.id);
+    set({
+      edges: addEdge(
+        {
+          ...newConnection,
+          id: oldEdge.id,
+          ...buildEdgeOptions(newConnection, edges),
+        },
+        edges
       ),
     });
   },

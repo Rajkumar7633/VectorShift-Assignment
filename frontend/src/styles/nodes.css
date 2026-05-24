@@ -187,9 +187,20 @@
 .react-flow__edge-path {
   stroke: var(--vs-primary);
   stroke-width: 2;
+  fill: none;
 }
 
 .react-flow__edge.selected .react-flow__edge-path {
   stroke: var(--vs-primary-dark);
   stroke-width: 2.5;
+}
+
+.react-flow__connection-path {
+  stroke: var(--vs-primary);
+  stroke-width: 2;
+  fill: none;
+}
+
+.react-flow__edge.updating .react-flow__edge-path {
+  stroke: var(--vs-primary-dark);
 }

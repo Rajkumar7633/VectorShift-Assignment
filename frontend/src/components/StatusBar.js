@@ -21,7 +21,9 @@ export const StatusBar = () => {
           {edgeCount} {edgeCount === 1 ? 'edge' : 'edges'}
         </span>
       </div>
-      <span className="status-bar__hint">Delete selected: Backspace</span>
+      <span className="status-bar__hint">
+        Delete: Backspace · Drag edge ends to reroute · Cycles allowed for DAG test
+      </span>
     </footer>
   );
 };

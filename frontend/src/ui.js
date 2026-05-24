@@ -9,6 +9,7 @@ import { shallow } from 'zustand/shallow';
 import { nodeTypes } from './nodes/nodeRegistry';
 import { CanvasEmptyState } from './components/CanvasEmptyState';
 import { usePipelineDrop } from './hooks/usePipelineDrop';
+import { defaultEdgeOptions } from './utils/edgeOptions';
 import {
   REACT_FLOW_GRID_SIZE,
   REACT_FLOW_PRO_OPTIONS,
@@ -23,13 +24,20 @@ const flowSelector = (state) => ({
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
+  onReconnect: state.onReconnect,
 });
 
+const isValidConnection = () => true;
+
 const PipelineFlow = () => {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(
-    flowSelector,
-    shallow
-  );
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    onReconnect,
+  } = useStore(flowSelector, shallow);
   const { wrapperRef, setReactFlowInstance, onDrop, onDragOver } =
     usePipelineDrop();
 
@@ -50,16 +58,23 @@ const PipelineFlow = () => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onReconnect={onReconnect}
         onInit={setReactFlowInstance}
         nodeTypes={nodeTypes}
         proOptions={REACT_FLOW_PRO_OPTIONS}
+        defaultEdgeOptions={defaultEdgeOptions}
         snapGrid={[REACT_FLOW_GRID_SIZE, REACT_FLOW_GRID_SIZE]}
         snapToGrid
-        connectionLineType="smoothstep"
+        connectionLineType="bezier"
+        connectionRadius={24}
+        isValidConnection={isValidConnection}
+        edgesReconnectable
+        reconnectRadius={22}
         fitView={!isEmpty}
         fitViewOptions={{ padding: 0.25 }}
         defaultViewport={DEFAULT_VIEWPORT}
         deleteKeyCode={['Backspace', 'Delete']}
+        elevateEdgesOnSelect
       >
         <Background
           color="#b8bfd0"
